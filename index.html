@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <title>GameGuidez</title>
+  <title>Game Guidez</title>
 </head>
 
 <body class="grey lighten-3"">
@@ -32,7 +32,6 @@
       <li class="logged-out">
         <a href="#" class="grey-text modal-trigger" data-target="modal-signup">Sign up</a>
       </li>
-      </span>
     </ul>
   </div>
   </nav>
@@ -115,6 +114,26 @@
       </li>
     </ul>
   </div>
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-firestore.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var config = {
+      apiKey: "AIzaSyAZBYFyxzMldcnqL0-sCE7nD_DPcmDN8C0",
+      authDomain: "ninja-firebaseauth-tutorial.firebaseapp.com",
+      databaseURL: "https://ninja-firebaseauth-tutorial.firebaseio.com",
+      projectId: "ninja-firebaseauth-tutorial"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(config);
+
+    // Make auth and firestore references
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
 
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
