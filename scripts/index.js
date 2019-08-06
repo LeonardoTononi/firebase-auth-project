@@ -1,3 +1,21 @@
+const guidesList = document.querySelector('.guides');
+
+// setup guides
+const setupGuides = data => {
+  let html = '';
+  data.map(doc => {
+    const guide = doc.data();
+    const li = `
+       <li>
+        <div class="collapsible-header grey lighten-4">${guide.title}</div>
+        <div class="collapsible-body white">${guide.content}</div>
+      </li>`;
+    html += li;
+  });
+
+  guidesList.innerHTML = html;
+};
+
 // setup materialize components
 document.addEventListener('DOMContentLoaded', function() {
   var modals = document.querySelectorAll('.modal');
