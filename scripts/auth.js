@@ -3,11 +3,13 @@ auth.onAuthStateChanged(user => {
   if (user) {
     // Get data
     db.collection('guides')
-      .get()
-      .then(snapshot => {
+      .onSnapshot(snapshot => {
         setupGuides(snapshot.docs);
+        setupUI(user);
+      })
+      .catch(err => {
+        console.log(err.message);
       });
-    setupUI(user);
   } else {
     setupGuides([]);
     setupUI();
