@@ -6,9 +6,15 @@ const accountDetails = document.querySelector('.account-details');
 const setupUI = user => {
   if (user) {
     // account info
-    const html = `
-             <div>Logged in as ${user.email}</div>`;
-    accountDetails.innerHTML = html;
+    db.collection('users')
+      .doc(user.uid)
+      .get()
+      .then(doc => {
+        const html = `
+             <div>Logged in as ${user.email}</div>
+             <div>${doc.data().bio}</div>`;
+        accountDetails.innerHTML = html;
+      });
 
     // toggle nav UI elements
     loggedInLinks.forEach(elt => (elt.style.display = 'block'));
