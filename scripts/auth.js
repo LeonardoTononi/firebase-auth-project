@@ -2,14 +2,13 @@
 auth.onAuthStateChanged(user => {
   if (user) {
     // Get data
-    db.collection('guides')
-      .onSnapshot(snapshot => {
+    db.collection('guides').onSnapshot(
+      snapshot => {
         setupGuides(snapshot.docs);
         setupUI(user);
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
+      },
+      err => console.log(err.message)
+    );
   } else {
     setupGuides([]);
     setupUI();
@@ -31,9 +30,7 @@ createForm.addEventListener('submit', e => {
       M.Modal.getInstance(modal).close();
       createForm.reset();
     })
-    .catch(err => {
-      console.log(err.message);
-    });
+    .catch(err => console.log(err.message));
 });
 
 // SignUp ==================
@@ -50,13 +47,19 @@ signupForm.addEventListener('submit', e => {
   auth
     .createUserWithEmailAndPassword(email, password)
     .then(cred => {
+      return db
+        .collection('users')
+        .doc(cred.user.uid)
+        .set({
+          bio: signupForm['signup-bio'].value
+        });
+    })
+    .then(() => {
       const modal = document.querySelector('#modal-signup');
       M.Modal.getInstance(modal).close();
       signupForm.reset();
     })
-    .catch(error => {
-      console.log(error);
-    });
+    .catch(err => console.log(err.message));
 });
 
 // Logout ==================
@@ -75,9 +78,12 @@ loginForm.addEventListener('submit', e => {
   const email = loginForm['login-email'].value;
   const password = loginForm['login-password'].value;
 
-  auth.signInWithEmailAndPassword(email, password).then(cred => {
-    const modal = document.querySelector('#modal-login');
-    M.Modal.getInstance(modal).close();
-    loginForm.reset();
-  });
+  auth
+    .signInWithEmailAndPassword(email, password)
+    .then(cred => {
+      const modal = document.querySelector('#modal-login');
+      M.Modal.getInstance(modal).close();
+      loginForm.reset();
+    })
+    .catch(err => console.log(err.message));
 });
