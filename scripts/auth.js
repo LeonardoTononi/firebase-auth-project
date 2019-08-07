@@ -1,17 +1,34 @@
-// Get data
-db.collection('guides')
-  .get()
-  .then(snapshot => {
-    setupGuides(snapshot.docs);
-  });
-
 // Listen for auth status changes
 auth.onAuthStateChanged(user => {
   if (user) {
-    console.log('user logged in: ', user);
+    // Get data
+    db.collection('guides')
+      .get()
+      .then(snapshot => {
+        setupGuides(snapshot.docs);
+      });
+    setupUI(user);
   } else {
-    console.log('user logged out', user);
+    setupGuides([]);
+    setupUI();
   }
+});
+
+// Create new guide ==================
+const createForm = document.querySelector('#create-form');
+createForm.addEventListener('submit', e => {
+  e.preventDefault();
+
+  db.collection('guides')
+    .add({
+      title: createForm['title'].value,
+      content: createForm['content'].value
+    })
+    .then(() => {
+      const modal = document.querySelector('#modal-create');
+      M.Modal.getInstance(modal).close();
+      createForm.reset();
+    });
 });
 
 // SignUp ==================
